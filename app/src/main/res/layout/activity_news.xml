@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.dyx.bestnews.NewsActivity">
+
+    <FrameLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+
+    </FrameLayout>
+
+    <RadioGroup
+        android:id="@+id/radiogroup1"
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:drawableTop="@drawable/home_selector"
+            android:text="首页"
+            style="@style/radiobtnSytle"
+    />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:text="热点"
+            android:drawableTop="@drawable/smartservice_selector"
+ style="@style/radiobtnSytle"
+           />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:drawableTop="@drawable/setting_selector"
+            android:text="测试"
+      style="@style/radiobtnSytle"
+         />
+
+        <RadioButton
+            android:id="@+id/radioButton4"
+            android:drawableTop="@drawable/gov_selector"
+            android:text="收藏"
+         style="@style/radiobtnSytle"
+     />
+    </RadioGroup>
+</LinearLayout>
