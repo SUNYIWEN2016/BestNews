@@ -23,7 +23,7 @@
         android:id="@+id/radiogroup1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@mipmap/bottom_tab_bg"
+        android:background="@drawable/bottom_tab_bg"
         android:orientation="horizontal"
         android:paddingBottom="5dp"
         android:paddingTop="5dp">
@@ -41,6 +41,12 @@
             android:drawableTop="@drawable/smartservice_selector"
             android:text="@string/main_tab2" />
 
+        <RadioButton
+            android:id="@+id/radioButton3"
+
+            style="@style/radiobtnSytle"
+            android:drawableTop="@drawable/setting_selector"
+            android:text="@string/main_tab3" />
 
         <RadioButton
             android:id="@+id/radioButton4"
@@ -48,11 +54,6 @@
             android:drawableTop="@drawable/gov_selector"
             android:text="@string/main_tab4" />
 
-        <RadioButton
-            android:id="@+id/radioButton3"
 
-            style="@style/radiobtnSytle"
-            android:drawableTop="@drawable/setting_selector"
-            android:text="@string/main_tab3" />
     </RadioGroup>
 </LinearLayout>
