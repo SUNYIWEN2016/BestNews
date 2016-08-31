@@ -39,15 +39,17 @@ public class NewsActivity extends AppCompatActivity implements BaseFragment.OnFr
         hf = new HotFragment();
         lf = new LoginFragment();
         nf = new NewsFragment();
-        addFragment(R.id.main_content, nf);
+        addFragment(nf);
         setListeners();
     }
 
-    private void setListeners() {
-
-        radiogroup1.setOnCheckedChangeListener(this);
+    private void addFragment(Fragment f) {
+        getSupportFragmentManager().beginTransaction().add(R.id.main_content, f).commit();
     }
 
+    private void setListeners() {
+        radiogroup1.setOnCheckedChangeListener(this);
+    }
 
     //单选组的选中监听
     @Override
@@ -68,31 +70,35 @@ public class NewsActivity extends AppCompatActivity implements BaseFragment.OnFr
         }
     }
 
-    //添加
-    public void addFragment(int contenerId, Fragment f) {
-        getSupportFragmentManager().beginTransaction().add(contenerId, f).commit();
+    private void showFragment(Fragment f) {
 
-    }
-
-    public void showFragment(Fragment fragment) {
+        //显示要显示的这个fragment
+        //如果是已经加过的，就直接显示，没加过就自动加上
+        //把其他那些已经加过的其他fragment都隐藏
         FragmentManager fm = getSupportFragmentManager();
         List<Fragment> list = fm.getFragments();
-        if (list == null) return;
         Fragment tempFragment = null;
-        for (Fragment f : list
-                ) {
-            if (f != fragment) {
-                fm.beginTransaction().hide(f).commit();
-            } else {
+        if (list != null) {
+
+            for (Fragment fragment : list) {
+                if (fragment != f) {
+                    //
+                    fm.beginTransaction().hide(fragment).commit();
+                } else {
+                    tempFragment = fragment;
+                }
+            }
+            //里面有，直接显示，没有，先加，再显示
+            if (tempFragment == null) {
+                addFragment(f);
                 tempFragment = f;
             }
+            fm.beginTransaction().show(tempFragment).commit();
+
         }
-        if (tempFragment == null) {
-            tempFragment = fragment;
-            addFragment(R.id.main_content, fragment);
-        }
-        fm.beginTransaction().show(tempFragment).commit();
+
     }
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {
