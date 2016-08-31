@@ -21,37 +21,38 @@
 
     <RadioGroup
         android:id="@+id/radiogroup1"
-        android:background="#cccccc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="@mipmap/bottom_tab_bg"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
 
         <RadioButton
             android:id="@+id/radioButton1"
-            android:drawableTop="@drawable/home_selector"
-            android:text="首页"
             style="@style/radiobtnSytle"
-    />
+            android:checked="true"
+            android:drawableTop="@drawable/home_selector"
+            android:text="@string/main_tab1" />
 
         <RadioButton
             android:id="@+id/radioButton2"
-            android:text="热点"
+            style="@style/radiobtnSytle"
             android:drawableTop="@drawable/smartservice_selector"
- style="@style/radiobtnSytle"
-           />
+            android:text="@string/main_tab2" />
 
-        <RadioButton
-            android:id="@+id/radioButton3"
-            android:drawableTop="@drawable/setting_selector"
-            android:text="测试"
-      style="@style/radiobtnSytle"
-         />
 
         <RadioButton
             android:id="@+id/radioButton4"
+            style="@style/radiobtnSytle"
             android:drawableTop="@drawable/gov_selector"
-            android:text="收藏"
-         style="@style/radiobtnSytle"
-     />
+            android:text="@string/main_tab4" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+
+            style="@style/radiobtnSytle"
+            android:drawableTop="@drawable/setting_selector"
+            android:text="@string/main_tab3" />
     </RadioGroup>
 </LinearLayout>
