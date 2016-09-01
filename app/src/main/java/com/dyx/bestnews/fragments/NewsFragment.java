@@ -12,12 +12,9 @@ import com.dyx.bestnews.R;
 import com.dyx.bestnews.adapter.NewsTypeAdapter;
 import com.dyx.bestnews.base.BaseFragment;
 import com.dyx.bestnews.entity.NetEaseType;
-import com.google.gson.Gson;
 import com.viewpagerindicator.TabPageIndicator;
 
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,41 +46,27 @@ public class NewsFragment extends BaseFragment {
         //先给viewpager设置适配器
         //适配器里要有标题
         //
-        getList();
+        //  getList();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            ArrayList<NetEaseType.TList> list = (ArrayList<NetEaseType.TList>) bundle.getSerializable("list");
+            adapter = new NewsTypeAdapter(getFragmentManager(), list);
+            pager.setAdapter(adapter);
+            indicator.setViewPager(pager);
+            indicator.setVisibility(View.VISIBLE);
+        }
 
     }
 
-    private void getList() {
-        String url = "http://c.m.163.com/nc/topicset/android/subscribe/manage/listspecial.html";
-        RequestParams entity = new RequestParams(url);
-        x.http().get(entity, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Gson gson = new Gson();
-                NetEaseType netEaseType = gson.fromJson(result, NetEaseType.class);
-                adapter = new NewsTypeAdapter(getFragmentManager(), netEaseType.gettList());
-                pager.setAdapter(adapter);
-                indicator.setViewPager(pager);
-                indicator.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
-
+    //添加了一个静态的工厂方法，保存传递过来的参数
+    public static NewsFragment getInstance(Bundle bundle) {
+        NewsFragment nf = new NewsFragment();
+        if (bundle != null) {
+            nf.setArguments(bundle);
+        }
+        return nf;
     }
+
 
     @Override
     public int getLayoutId() {

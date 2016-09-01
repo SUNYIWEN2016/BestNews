@@ -1,26 +1,27 @@
 package com.dyx.bestnews.entity;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/8/31 0031.
  */
 public class NetEaseType {
-    private List<TList> tList;
+    private ArrayList<TList> tList;
 
-    public NetEaseType(List<TList> tList) {
+    public NetEaseType(ArrayList<TList> tList) {
         this.tList = tList;
     }
 
-    public List<TList> gettList() {
+    public ArrayList<TList> gettList() {
         return tList;
     }
 
-    public void settList(List<TList> tList) {
+    public void settList(ArrayList<TList> tList) {
         this.tList = tList;
     }
 
-    public static class TList {
+    public static class TList implements Serializable {
         private String tname;
         private String tid;
 

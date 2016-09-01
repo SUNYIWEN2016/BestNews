@@ -38,7 +38,7 @@ public class NewsActivity extends AppCompatActivity implements BaseFragment.OnFr
         ff = new FavorFragment();
         hf = new HotFragment();
         lf = new LoginFragment();
-        nf = new NewsFragment();
+        nf = NewsFragment.getInstance(getIntent().getExtras());
         addFragment(nf);
         setListeners();
     }
