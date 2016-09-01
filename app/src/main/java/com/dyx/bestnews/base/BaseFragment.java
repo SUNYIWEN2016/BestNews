@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 public abstract class BaseFragment extends Fragment {
 
     protected OnFragmentInteractionListener mListener;
+    protected View rootView;
 
     public BaseFragment() {
     }
@@ -23,15 +24,32 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(getLayoutId(), container, false);
+        if (rootView == null) {
+            rootView = inflater.inflate(getLayoutId(), null);
+
+        }
+
+        return rootView;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (rootView != null) {
+            ViewGroup parent = (ViewGroup) rootView.getParent();
+//            Toast.makeText(BaseFragment.this.getContext(), "移除rootView", Toast.LENGTH_SHORT).show();
+            parent.removeView(rootView);
+        }
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         initData();
+//        if (rootView.getParent() != null) {
+//            Toast.makeText(BaseFragment.this.getContext(), "parent:" + rootView.getParent(), Toast.LENGTH_SHORT).show();
+//        }
     }
 
     //初始化界面

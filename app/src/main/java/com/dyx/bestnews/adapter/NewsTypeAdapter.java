@@ -1,5 +1,6 @@
 package com.dyx.bestnews.adapter;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -28,9 +29,16 @@ public class NewsTypeAdapter extends FragmentPagerAdapter {
         return titleList == null ? "未命名" : titleList.get(position).getTname();
     }
 
+
+
+
     @Override
     public Fragment getItem(int position) {
-        return new NewsListFragment();
+        //tid:传进framgment
+        Bundle bundle = new Bundle();
+        bundle.putString("tid", titleList.get(position).getTid());
+        bundle.putString("tname", titleList.get(position).getTname());
+        return NewsListFragment.getInstance(bundle);
     }
 
     @Override

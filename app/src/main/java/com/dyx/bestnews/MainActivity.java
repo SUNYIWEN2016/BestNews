@@ -13,10 +13,13 @@ import org.xutils.x;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        intent = new Intent(MainActivity.this, NewsActivity.class);
         //1.logo显示
         //2.后台延时
         //3.初始化数据库
@@ -42,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
                 NetEaseType netEaseType = gson.fromJson(result, NetEaseType.class);
                 //集合的元素必须可序列化
                 //用ArrayList<>保存，不能用List
-                Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+
                 intent.putExtra("list", netEaseType.gettList());
-                startActivity(intent);
+
             }
 
             @Override
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinished() {
-
+                startActivity(intent);
             }
         });
 
