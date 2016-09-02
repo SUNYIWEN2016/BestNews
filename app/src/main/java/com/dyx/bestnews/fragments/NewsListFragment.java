@@ -1,14 +1,19 @@
 package com.dyx.bestnews.fragments;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.dyx.bestnews.R;
 import com.dyx.bestnews.adapter.NewsRecycleAdapter;
 import com.dyx.bestnews.base.BaseFragment;
 import com.dyx.bestnews.entity.NewsEase;
+import com.dyx.bestnews.utils.UIUtils;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -99,6 +104,7 @@ public class NewsListFragment extends BaseFragment {
                 NewsRecycleAdapter adapter = new NewsRecycleAdapter(newslist, getContext());
                 recyclerView1.setAdapter(adapter);
                 recyclerView1.setLayoutManager(new LinearLayoutManager(getContext()));
+                recyclerView1.addItemDecoration(new MyDecoration());
                 isCompleted = true;
             }
 
@@ -133,7 +139,23 @@ public class NewsListFragment extends BaseFragment {
     }
 
 
-    public static class MyDecoration extends RecyclerView.ItemDecoration{
+    public static class MyDecoration extends RecyclerView.ItemDecoration {
+        int space = 5;
+        private Paint paint = new Paint();
 
+        {
+            paint.setAntiAlias(true);
+            paint.setColor(UIUtils.getColor(R.color.orange));
+        }
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            outRect.bottom += space;
+            @Override
+            public void onDrawOver (Canvas c, RecyclerView parent, RecyclerView.State state){
+                for (int i = 0; i < parent.getChildCount(); i++) {
+                    View v = parent.getChildAt(i);
+                    c.drawRect(v.getLeft(), v.getBottom(), v.getRight(), v.getBottom() + space, paint);
+                }
+            }
+        }
     }
-}
