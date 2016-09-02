@@ -10,11 +10,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.dyx.bestnews.entity.NetEaseType;
+import com.dyx.bestnews.utils.IgnoreTypes;
 import com.google.gson.Gson;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 NetEaseType netEaseType = gson.fromJson(result, NetEaseType.class);
                 //集合的元素必须可序列化
+                //忽略指定的某些分类
+                ignore(netEaseType);
                 //用ArrayList<>保存，不能用List
                 ivLogo.setVisibility(View.VISIBLE);
                 intent.putExtra("list", netEaseType.gettList());
@@ -93,5 +99,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void ignore(NetEaseType netEaseType) {
+        List<NetEaseType.TList> tobeDeleted = new ArrayList<>();
+        for (int i = 0; i < IgnoreTypes.TYPES.length; i++) {
+            for (int j = 0; j <netEaseType.gettList().size(); j++) {
+                if (IgnoreTypes.TYPES[i].equals(netEaseType.gettList().get(j).getTname())) {
+                    tobeDeleted.add(netEaseType.gettList().get(j));
+                }
+            }
+
+        }
+        netEaseType.gettList().removeAll(tobeDeleted);
     }
 }
