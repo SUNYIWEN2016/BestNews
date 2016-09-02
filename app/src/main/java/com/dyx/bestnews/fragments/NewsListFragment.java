@@ -147,15 +147,17 @@ public class NewsListFragment extends BaseFragment {
             paint.setAntiAlias(true);
             paint.setColor(UIUtils.getColor(R.color.orange));
         }
+
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             outRect.bottom += space;
-            @Override
-            public void onDrawOver (Canvas c, RecyclerView parent, RecyclerView.State state){
-                for (int i = 0; i < parent.getChildCount(); i++) {
-                    View v = parent.getChildAt(i);
-                    c.drawRect(v.getLeft(), v.getBottom(), v.getRight(), v.getBottom() + space, paint);
-                }
+        }
+        @Override
+        public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+            for (int i = 0; i < parent.getChildCount(); i++) {
+                View v = parent.getChildAt(i);
+                c.drawRect(v.getLeft(), v.getBottom(), v.getRight(), v.getBottom() + space, paint);
             }
         }
     }
+}
