@@ -1,9 +1,9 @@
 package com.dyx.bestnews;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
@@ -13,8 +13,6 @@ import com.dyx.bestnews.fragments.FavorFragment;
 import com.dyx.bestnews.fragments.HotFragment;
 import com.dyx.bestnews.fragments.LoginFragment;
 import com.dyx.bestnews.fragments.NewsFragment;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +42,7 @@ public class NewsActivity extends AppCompatActivity implements BaseFragment.OnFr
     }
 
     private void addFragment(Fragment f) {
-        getSupportFragmentManager().beginTransaction().add(R.id.main_content, f).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.main_content, f, f.getClass().getSimpleName()).commit();
     }
 
     private void setListeners() {
@@ -56,52 +54,38 @@ public class NewsActivity extends AppCompatActivity implements BaseFragment.OnFr
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         switch (i) {
             case R.id.radioButton1:
+
                 showFragment(nf);
+                //   getSupportFragmentManager().beginTransaction().show(nf).hide(hf).hide(ff).hide(lf).commit();
                 break;
             case R.id.radioButton2:
                 showFragment(hf);
+                //   getSupportFragmentManager().beginTransaction().show(hf).hide(ff).hide(nf).hide(lf).commit();
                 break;
             case R.id.radioButton3:
                 showFragment(ff);
+                //   getSupportFragmentManager().beginTransaction().show(ff).hide(nf).hide(lf).hide(hf).commit();
                 break;
             case R.id.radioButton4:
                 showFragment(lf);
+                //  getSupportFragmentManager().beginTransaction().show(lf).hide(nf).hide(ff).hide(hf).commit();
                 break;
         }
     }
 
-    private void showFragment(Fragment f) {
-
-        //显示要显示的这个fragment
-        //如果是已经加过的，就直接显示，没加过就自动加上
-        //把其他那些已经加过的其他fragment都隐藏
+    public void showFragment(Fragment f) {
+        Fragment[] fs = {nf, ff, lf, hf};
         FragmentManager fm = getSupportFragmentManager();
-        List<Fragment> list = fm.getFragments();
-        Fragment tempFragment = null;
-        if (list != null) {
-
-            for (Fragment fragment : list) {
-                if (fragment != f) {
-                    //
-                    fm.beginTransaction().hide(fragment).commit();
-                } else {
-                    tempFragment = fragment;
-                }
-            }
-            //里面有，直接显示，没有，先加，再显示
-            if (tempFragment == null) {
-                addFragment(f);
-                tempFragment = f;
-            }
-            fm.beginTransaction().show(tempFragment).commit();
-
+        FragmentTransaction tr = fm.beginTransaction();
+        for (Fragment tf : fs) {
+            tr.hide(tf);
         }
-
+        tr.show(f).commit();
     }
 
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onFragmentInteraction(int viewId, Bundle bundle) {
 
     }
 }

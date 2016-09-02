@@ -14,7 +14,7 @@ public class FavorFragment extends BaseFragment {
 
     @Override
     public int getLayoutId() {
-        return R.layout.layout_news;
+        return R.layout.layout_favor;
     }
 
 }
