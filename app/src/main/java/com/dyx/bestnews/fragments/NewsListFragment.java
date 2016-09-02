@@ -96,11 +96,10 @@ public class NewsListFragment extends BaseFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                //// TODO: 2016/9/2 0002 设置适配器
                 NewsRecycleAdapter adapter = new NewsRecycleAdapter(newslist, getContext());
                 recyclerView1.setAdapter(adapter);
                 recyclerView1.setLayoutManager(new LinearLayoutManager(getContext()));
-              isCompleted = true;
+                isCompleted = true;
             }
 
             @Override
@@ -131,5 +130,10 @@ public class NewsListFragment extends BaseFragment {
     @Override
     public int getLayoutId() {
         return R.layout.layout_newslist;
+    }
+
+
+    public static class MyDecoration extends RecyclerView.ItemDecoration{
+
     }
 }

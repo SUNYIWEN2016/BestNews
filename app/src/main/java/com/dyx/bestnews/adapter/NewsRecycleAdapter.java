@@ -58,8 +58,8 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public int getItemViewType(int position) {
         NewsEase newsEase = list.get(position);
         if (position == 0) {
-            if (newsEase.ads == null) {
-                return VIEW_TYPE_ONE_BIG;
+            if (newsEase.ads == null && newsEase.title != null) {
+                return VIEW_TYPE_ONE_HEAD;
             } else {
                 return VIEW_TYPE_VP;
             }
@@ -77,17 +77,21 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         NewsEase east = list.get(position);
+        String title=null;
+        String t1=east.title;String t2=east.ltitle;
+        t1=t1==null?"":t1;t2=t2==null?"":t2;
+        title=t1.length()>t2.length()?t1:t2;
+
         if (holder instanceof OneImageHolder) {
             OneImageHolder h = (OneImageHolder) holder;
             XImageUtil.display(h.imgLeft, east.imgsrc);
-            String title = east.ltitle == null ? east.ltitle : east.title;
             h.tvTitle.setText(title);
             h.tvFollow.setText(east.replyCount + "跟帖");
 
         } else if (holder instanceof HeadPicHolder) {
             HeadPicHolder h = (HeadPicHolder) holder;
             XImageUtil.display(h.imgHead, east.imgsrc);
-            String title = east.ltitle == null ? east.ltitle : east.title;
+
             h.tvTitle.setText(title);
 
 
@@ -96,7 +100,6 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             XImageUtil.display(h.img1, east.imgsrc);
             XImageUtil.display(h.img2, east.imgextra.get(0).imgsrc);
             XImageUtil.display(h.img3, east.imgextra.get(1).imgsrc);
-            String title = east.ltitle == null ? east.ltitle : east.title;
             h.tvTitle.setText(title);
             h.tvFollow.setText(east.replyCount + "跟帖");
 

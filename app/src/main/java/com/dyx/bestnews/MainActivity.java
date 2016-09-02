@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 long endTime = System.currentTimeMillis();
                 if ((endTime - time) < 1500) {
                     try {
-                        Thread.sleep(2000 - (endTime - time));
+                        Thread.sleep(1500 - (endTime - time));
                     } catch (Exception e) {
                     }
                 }

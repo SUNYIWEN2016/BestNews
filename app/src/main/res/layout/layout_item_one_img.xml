@@ -16,6 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_toRightOf="@+id/img_left"
+        android:textSize="25sp"
+        android:textColor="#8f00"
         android:text="大字标题" />
 
     <TextView
@@ -27,6 +29,6 @@
         android:layout_toRightOf="@+id/img_left"
         android:layout_alignBottom="@+id/img_left"
         android:gravity="right"
-        android:textColor="#f00" />
+        android:textColor="#ea0" />
 
 </RelativeLayout>
