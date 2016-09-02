@@ -49,7 +49,7 @@ public class NewsListFragment extends BaseFragment {
     }
 
     protected void lazyLoad() {
-     //   if (!isPrepared || !isVisible || isCompleted) return;
+        if (!isPrepared || !isVisible || isCompleted) return;
         Bundle bundle = getArguments();
         if (bundle != null) {
             String tid = bundle.getString("tid");
@@ -100,7 +100,7 @@ public class NewsListFragment extends BaseFragment {
                 NewsRecycleAdapter adapter = new NewsRecycleAdapter(newslist, getContext());
                 recyclerView1.setAdapter(adapter);
                 recyclerView1.setLayoutManager(new LinearLayoutManager(getContext()));
-            //    isCompleted = true;
+              isCompleted = true;
             }
 
             @Override

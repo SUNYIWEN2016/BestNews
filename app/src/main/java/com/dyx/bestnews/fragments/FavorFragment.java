@@ -10,6 +10,7 @@ public class FavorFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+
     }
 
     @Override

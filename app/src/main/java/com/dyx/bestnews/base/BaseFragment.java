@@ -23,10 +23,10 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-//        if (rootView == null) {
+        if (rootView == null) {
             rootView = inflater.inflate(getLayoutId(), null);
 
-//        }
+        }
 
         return rootView;
     }
@@ -58,9 +58,9 @@ public abstract class BaseFragment extends Fragment {
     public abstract int getLayoutId();
 
 
-    public void onButtonPressed(int viewId,Bundle bundle) {
+    public void onButtonPressed(int viewId, Bundle bundle) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(viewId,bundle);
+            mListener.onFragmentInteraction(viewId, bundle);
         }
     }
 
@@ -77,7 +77,8 @@ public abstract class BaseFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(int viewId,Bundle bundle);
+        void onFragmentInteraction(int viewId, Bundle bundle);
     }
 }
