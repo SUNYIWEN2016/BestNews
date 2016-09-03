@@ -1,24 +1,14 @@
 package com.dyx.bestnews.fragments;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Toast;
 
 import com.dyx.bestnews.R;
 import com.dyx.bestnews.adapter.NewsRecycleAdapter;
 import com.dyx.bestnews.base.BaseFragment;
 import com.dyx.bestnews.entity.NewsEase;
-import com.dyx.bestnews.utils.UIUtils;
-import com.dyx.bestnews.views.MySwipeRefreshLayout;
-import com.dyx.bestnews.views.RecycleViewDivider;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -32,15 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-
 /**
  * Created by Administrator on 2016/8/31 0031.
  */
 public class NewsListFragment extends BaseFragment {
     @BindView(R.id.recyclerView1)
     RecyclerView recyclerView1;
-    @BindView(R.id.swipe)
-    MySwipeRefreshLayout swipe;
     NewsRecycleAdapter adapter;
     //1。懒加载，只加载当前页面，不提前加载其他页面
     //2.父类中重复使用了rootView,重复进行inflate，在destoryview中手动移除rootview的父容器
@@ -87,77 +74,11 @@ public class NewsListFragment extends BaseFragment {
     protected void initData() {
         isPrepared = true;
         layoutManager = new LinearLayoutManager(getContext());
-        swipe.setColorSchemeColors(Color.BLUE, Color.RED);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            recyclerView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                    super.onScrollStateChanged(recyclerView, newState);
-                    loadMore(newState);
-                }
-            });
-        } else {
-            recyclerView1.setOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                    super.onScrollStateChanged(recyclerView, newState);
-                    loadMore(newState);
-                }
-            });
-
-        }
         //根据传进来的tid去获取json数据
-        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //开线程5秒之后告诉它刷新完了。
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.addItem(nnn, 0);
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                swipe.setRefreshing(false);
-                            }
-                        });
-                    }
-                }).start();
-
-            }
-        });
         lazyLoad();
 
     }
 
-    private void loadMore(int newState) {
-        if (!swipe.isRefreshing()) {
-            int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-            if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
-                //调用Adapter里的changeMoreStatus方法来改变加载脚View的显示状态为：正在加载...
-                adapter.changeMoreStatus(NewsRecycleAdapter.ISLOADING);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-//                        adapter.addItem(nnn, adapter.getItemCount() - 2);
-//                        adapter.notifyItemInserted(adapter.getItemCount() - 2);
-                    //    tempList.clear();
-                    //    tempList.add(nnn);
-                    //    adapter.addDataList(tempList);
-//                        if (tempList.size()==0){
-
-//                        }else{
-                     //      adapter.addDataList(tempList);
-                        adapter.notifyDataSetChanged();
-                       //当加载完数据后，再恢复加载脚View的显示状态为：上拉加载更多
-                        //  adapter.changeMoreStatus(NewsRecycleAdapter.PULLUP_LOAD_MORE);
-//                        }
-                        adapter.changeMoreStatus(NewsRecycleAdapter.NO_MORE_DATA);
-                    }
-                }, 1500);
-            }
-        }
-    }
 
 
     private NewsEase nnn;
@@ -184,7 +105,6 @@ public class NewsListFragment extends BaseFragment {
                 }
                 adapter = new NewsRecycleAdapter(newslist, getContext());
                 recyclerView1.setAdapter(adapter);
-                recyclerView1.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.HORIZONTAL));
 //                recyclerView1.addItemDecoration(new MyDecoration());
                 recyclerView1.setLayoutManager(layoutManager);
 
@@ -223,26 +143,4 @@ public class NewsListFragment extends BaseFragment {
     }
 
 
-    public static class MyDecoration extends RecyclerView.ItemDecoration {
-        int space = 3;
-        private Paint paint = new Paint();
-
-        {
-            paint.setAntiAlias(true);
-            paint.setColor(UIUtils.getColor(R.color.orange));
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            outRect.bottom += space;
-        }
-
-        @Override
-        public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-            for (int i = 0; i < parent.getChildCount(); i++) {
-                View v = parent.getChildAt(i);
-                c.drawRect(v.getLeft(), v.getBottom(), parent.getRight(), v.getBottom() + space, paint);
-            }
-        }
-    }
 }

@@ -1,11 +1,14 @@
 package com.dyx.bestnews.adapter;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dyx.bestnews.R;
@@ -23,10 +26,11 @@ import butterknife.ButterKnife;
 public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<NewsEase> list;
-
+    private Handler handler;
     public NewsRecycleAdapter(List<NewsEase> list, Context context) {
         this.list = list;
         this.context = context;
+
     }
 
     private Context context;
@@ -95,17 +99,85 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             h.tvTitle.setText(list.get(position).title);
             h.tvFollow.setText(list.get(position).replyCount + "跟帖");
 
-        } else if (holder instanceof ViewPagerHolder) {
-            ViewPagerHolder h = (ViewPagerHolder) holder;
-            AdAdapter adapter = new AdAdapter(list.get(position).ads);
-            h.vpager.setCurrentItem(adapter.getCount() / 2);
-            h.vpager.setAdapter(adapter);
-        }else{
+        } else if (holder instanceof ViewPagerHolder)
+            initViewPagerHolder((ViewPagerHolder) holder, position);
+        else {
             //footer
 
 
+        }
+    }
+
+    //初始化ViewPager布局：
+    private void initViewPagerHolder(ViewPagerHolder holder, final int position) {
+        final ViewPagerHolder h = holder;
+        final List<NewsEase.AD> ads = list.get(position).ads;
+        AdAdapter adapter = new AdAdapter(ads);
+        //初始化点：
+        //根据ads的长度来添加view，
+        for (int i = 0; i < ads.size(); i++) {
+            //
+            ImageView img = new ImageView(context);
+            img.setImageResource(R.drawable.adware_style_default);
+            h.ll_layout.addView(img);
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) img.getLayoutParams();
+            layoutParams.leftMargin = 5;
+            layoutParams.rightMargin = 5;
+
 
         }
+
+        //颜色默认第一个是选中的：
+        final ImageView childAt = (ImageView) h.ll_layout.getChildAt(0);
+        childAt.setImageResource(R.drawable.adware_style_selected);
+        h.vpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int p, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int p) {
+                int pos = p % ads.size();//当前的页面pos
+                for (int i = 0; i < ads.size(); i++) {
+                    ImageView childAt1 = (ImageView) h.ll_layout.getChildAt(i);
+                    childAt1.setImageResource(R.drawable.adware_style_default);
+                }
+                ((ImageView) h.ll_layout.getChildAt(pos)).setImageResource(R.drawable.adware_style_selected);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        h.vpager.setAdapter(adapter);
+        h.vpager.setCurrentItem(Integer.MAX_VALUE / 2 - ((Integer.MAX_VALUE / 2) % list.get(position).ads.size()));
+        handler=new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what==1){
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            int position=h.vpager.getCurrentItem();
+                            h.vpager.setCurrentItem(position+1);
+                            handler.sendEmptyMessage(1);
+                        }
+                    },2000);
+                }
+            }
+        };
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int position=h.vpager.getCurrentItem();
+                h.vpager.setCurrentItem(position+1);
+                handler.sendEmptyMessage(1);
+            }
+        },2000);
+
     }
 
     @Override
@@ -152,6 +224,8 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public static class ViewPagerHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.vpager)
         ViewPager vpager;
+        @BindView(R.id.ll_layout)
+        LinearLayout ll_layout;
 
         public ViewPagerHolder(View itemView) {
             super(itemView);
@@ -179,4 +253,5 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ButterKnife.bind(this, itemView);
         }
     }
+
 }
