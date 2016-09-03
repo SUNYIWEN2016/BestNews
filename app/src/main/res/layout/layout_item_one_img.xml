@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/img_left"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="@dimen/oneImg_height"
+        android:layout_height="@dimen/oneImg_height"
         android:src="@mipmap/loading" />
 
     <TextView
