@@ -13,8 +13,19 @@ public class LoginFragment extends BaseFragment {
     }
 
     @Override
-    public int getLayoutId() {
+    protected String getRealURL() {
+        return null;
+    }
+
+    @Override
+    protected void parseRealData(String result) {
+
+    }
+
+    @Override
+    protected int getRealLayout() {
         return R.layout.layout_login;
     }
+
 
 }

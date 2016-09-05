@@ -1,6 +1,7 @@
 package com.dyx.bestnews.app;
 
 import android.app.Application;
+import android.os.Handler;
 
 import org.xutils.x;
 
@@ -9,11 +10,12 @@ import org.xutils.x;
  */
 public class MyApp extends Application {
     private static MyApp app;
-
+    public static Handler handler;
     @Override
     public void onCreate() {
         super.onCreate();
         app = this;
+        handler=new Handler();
         x.Ext.init(this);
     }
 
