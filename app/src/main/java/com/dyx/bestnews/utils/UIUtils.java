@@ -3,6 +3,7 @@ package com.dyx.bestnews.utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
+import android.view.View;
 
 import com.dyx.bestnews.app.MyApp;
 
@@ -24,5 +25,9 @@ public class UIUtils {
         } else {
             return getResource().getColor(colorId);
         }
+    }
+
+    public static View infate(int layoutId) {
+        return View.inflate(getContext(), layoutId, null);
     }
 }

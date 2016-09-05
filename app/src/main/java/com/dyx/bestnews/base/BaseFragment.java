@@ -19,8 +19,6 @@ public abstract class BaseFragment extends Fragment {
 
     public BaseFragment() {
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,7 +62,6 @@ public abstract class BaseFragment extends Fragment {
         loadingPage.startNetWork();
     }
 
-    ;
 
 
     @Override

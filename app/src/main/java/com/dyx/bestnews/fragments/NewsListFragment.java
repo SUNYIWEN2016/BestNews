@@ -23,27 +23,65 @@ import butterknife.BindView;
 /**
  * Created by Administrator on 2016/8/31 0031.
  */
+
+
 public class NewsListFragment extends BaseFragment {
     private String tid;
     @BindView(R.id.recyclerView1)
     RecyclerView recyclerView1;
     NewsRecycleAdapter adapter;
     private LinearLayoutManager layoutManager;
+    private boolean isPrepared;//加载是否准备好
+    private boolean isVisible;//是否可见
+    private boolean isCompleted;//是否已经加载完成。
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {//frahment从不可见到完全可见的时候，会调用该方法
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getUserVisibleHint()) {
+            isVisible = true;
+            onVisible();
+        } else {
+            isVisible = false;
+            onInvisible();
+        }
+    }
+
+    protected void onInvisible() {
+
+    }
+
+    ;//懒加载的方法,在这个方法里面我们为Fragment的各个组件去添加数据
+
+    protected void onVisible() {
+        lazyLoad();
+    }
+
+    private void lazyLoad() {
+        if (!isPrepared || !isVisible || isCompleted) return;
+        showSuccessPage();
+
+    }
+
+    ;//懒加载的方法,在这个方法里面我们为Fragment的各个组件去添加数据
+
 
     @Override
     protected void initData() {
+        isPrepared = true;
         layoutManager = new LinearLayoutManager(getContext());
         Bundle bundle = getArguments();
         if (bundle != null) {
             tid = bundle.getString("tid");
             //组合成url显示
-            showSuccessPage();
+            lazyLoad();
         }
     }
 
     @Override
     protected String getRealURL() {
         String url = "http://c.m.163.com/nc/article/list/" + tid + "/0-20.html";
+        Toast.makeText(NewsListFragment.this.getContext(), "tid:" + tid, Toast.LENGTH_SHORT).show();
         return url;
     }
 
@@ -66,8 +104,9 @@ public class NewsListFragment extends BaseFragment {
         recyclerView1.setAdapter(adapter);
 //                recyclerView1.addItemDecoration(new MyDecoration());
         recyclerView1.setLayoutManager(layoutManager);
-
+        isCompleted = true;
     }
+
     public static NewsListFragment getInstance(Bundle bundle) {
         NewsListFragment fragment = new NewsListFragment();
         if (bundle != null) {
@@ -75,6 +114,7 @@ public class NewsListFragment extends BaseFragment {
         }
         return fragment;
     }
+
     @Override
     protected int getRealLayout() {
         return R.layout.layout_newslist;

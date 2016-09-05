@@ -21,7 +21,7 @@ public abstract class LoadingPage extends FrameLayout {
     public static final int STAT_ERROR = 1;
     public static final int STAT_EMPTY = 2;
     public static final int STAT_SUCESS = 3;
-    private int currentState = 3;//当前状态
+    private int currentState = 0;//当前状态
 
     private View loadingView;
     private View errorView;
@@ -106,11 +106,9 @@ public abstract class LoadingPage extends FrameLayout {
                 emptyView.setVisibility(currentState == STAT_EMPTY ? View.VISIBLE : View.INVISIBLE);
                 if (sucessView == null) {
                     sucessView = View.inflate(getContext(), getScucessLayout(), null);
-
                     addView(sucessView);
                     //碎片中绑定id
                     bindView(sucessView);
-
                 }
                 sucessView.setVisibility(currentState == STAT_SUCESS ? View.VISIBLE : View.INVISIBLE);
             }
