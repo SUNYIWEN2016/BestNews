@@ -367,7 +367,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
             mCurrentPage = mViewPager.getCurrentItem();
         }
 
-        //Calculate views bounds
+        //Calculate com.dyx.bestnews.views bounds
         ArrayList<Rect> bounds = calculateAllBounds(mPaintText);
         final int boundsSize = bounds.size();
 
@@ -410,7 +410,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
             clipViewOnTheRight(curPageBound, curPageWidth, right);
         }
 
-        //Left views starting from the current position
+        //Left com.dyx.bestnews.views starting from the current position
         if (mCurrentPage > 0) {
             for (int i = mCurrentPage - 1; i >= 0; i--) {
                 Rect bound = bounds.get(i);
@@ -429,7 +429,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
                 }
             }
         }
-        //Right views starting from the current position
+        //Right com.dyx.bestnews.views starting from the current position
         if (mCurrentPage < countMinusOne) {
             for (int i = mCurrentPage + 1 ; i < count; i++) {
                 Rect bound = bounds.get(i);
@@ -449,7 +449,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
             }
         }
 
-        //Now draw views
+        //Now draw com.dyx.bestnews.views
         int colorTextAlpha = mColorText >>> 24;
         for (int i = 0; i < count; i++) {
             //Get the title
@@ -663,14 +663,14 @@ public class TitlePageIndicator extends View implements PageIndicator {
     }
 
     /**
-     * Calculate views bounds and scroll them according to the current index
+     * Calculate com.dyx.bestnews.views bounds and scroll them according to the current index
      *
      * @param paint
      * @return
      */
     private ArrayList<Rect> calculateAllBounds(Paint paint) {
         ArrayList<Rect> list = new ArrayList<Rect>();
-        //For each views (If no values then add a fake one)
+        //For each com.dyx.bestnews.views (If no values then add a fake one)
         final int count = mViewPager.getAdapter().getCount();
         final int width = getWidth();
         final int halfWidth = width / 2;

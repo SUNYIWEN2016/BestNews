@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_slidingmenu_left"
-    tools:context="com.dyx.bestnews.MainActivity">
+    tools:context=".acts.MainActivity">
 
     <ImageView
         android:id="@+id/iv_logo"

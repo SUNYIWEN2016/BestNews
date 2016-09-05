@@ -1,4 +1,4 @@
-package com.dyx.bestnews;
+package com.dyx.bestnews.acts;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.dyx.bestnews.R;
 import com.dyx.bestnews.entity.NetEaseType;
 import com.dyx.bestnews.utils.IgnoreTypes;
 import com.google.gson.Gson;

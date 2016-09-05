@@ -361,7 +361,7 @@ public class LinePageIndicator extends View implements PageIndicator {
             //We were told how big to be
             result = specSize;
         } else {
-            //Calculate the width according the views count
+            //Calculate the width according the com.dyx.bestnews.views count
             final int count = mViewPager.getAdapter().getCount();
             result = getPaddingLeft() + getPaddingRight() + (count * mLineWidth) + ((count - 1) * mGapWidth);
             //Respect AT_MOST value if that was what is called for by measureSpec

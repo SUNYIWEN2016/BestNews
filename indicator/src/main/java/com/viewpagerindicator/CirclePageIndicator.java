@@ -466,7 +466,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
             //We were told how big to be
             result = specSize;
         } else {
-            //Calculate the width according the views count
+            //Calculate the width according the com.dyx.bestnews.views count
             final int count = mViewPager.getAdapter().getCount();
             result = (int)(getPaddingLeft() + getPaddingRight()
                     + (count * 2 * mRadius) + (count - 1) * mRadius + 1);

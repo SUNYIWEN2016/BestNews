@@ -1,4 +1,4 @@
-package com.dyx.bestnews;
+package com.dyx.bestnews.acts;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
+import com.dyx.bestnews.R;
 import com.dyx.bestnews.base.BaseFragment;
 import com.dyx.bestnews.fragments.FavorFragment;
 import com.dyx.bestnews.fragments.HotFragment;
