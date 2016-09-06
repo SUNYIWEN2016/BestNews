@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dyx.bestnews.R;
@@ -61,6 +62,15 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public static final int VIEW_TYPE_ONE_BIG = 2;
     public static final int VIEW_TYPE_THREE_SMALL = 3;
     public static final int VIEW_TYPE_FOOTER = 4;
+
+
+    //上拉加载更多
+    public static final int PULLUP_LOAD_MORE = 0; //默认状态，提示上拉加载
+    //正在加载...
+    public static final int ISLOADING = 1;//正在加载
+    public static final int NO_MORE_DATA = 2;// 没有更多数据了
+    //上拉加载的显示状态，初始为0
+    private int load_more_status = 0;
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -125,9 +135,29 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             initViewPagerHolder((ViewPagerHolder) holder, position);
         else {
             //footer
+            //属于footer：
+            FootHolder footer = (FootHolder) holder;
+            switch (load_more_status) {
+                case PULLUP_LOAD_MORE:
+                    footer.progressBar1.setVisibility(View.GONE);
+                    footer.tvTitle.setText(R.string.loading);
+                    break;
+                case ISLOADING:
+                    footer.progressBar1.setVisibility(View.VISIBLE);
+                    footer.tvTitle.setText(R.string.pullingUp);
+                    break;
+                case NO_MORE_DATA:
+                    footer.progressBar1.setVisibility(View.GONE);
+                    footer.tvTitle.setText(R.string.no_more_data);
+                    break;
 
-
+            }
         }
+    }
+
+    public void changeMoreStatus(int status) {
+        load_more_status = status;
+        notifyDataSetChanged();
     }
 
     //初始化ViewPager布局：
@@ -262,7 +292,13 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    private class FootHolder extends RecyclerView.ViewHolder {
+  class FootHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.progressBar1)
+        ProgressBar progressBar1;
+        @BindView(R.id.textView1)
+        TextView tvTitle;
+
         public FootHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

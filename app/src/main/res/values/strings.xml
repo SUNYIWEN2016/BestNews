@@ -7,4 +7,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loading">上拉加载更多...</string>
+    <string name="pullingUp">正在加载...</string>
+    <string name="no_more_data">没有更多数据了..</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.dyx.bestnews.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -78,6 +79,28 @@ public class NewsListFragment extends BaseFragment {
         //                recyclerView1.addItemDecoration(new MyDecoration());
         recyclerView1.setLayoutManager(layoutManager);
         recyclerView1.setAdapter(adapter);
+        recyclerView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(!swipe.isRefreshing()){
+                    int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+                    if(newState==RecyclerView.SCROLL_STATE_IDLE&&lastVisibleItem+1==adapter.getItemCount()){
+                        //调用Adapter里的changeMoreStatus方法来改变加载脚View的显示状态为：正在加载...
+                        adapter.changeMoreStatus(NewsRecycleAdapter.ISLOADING);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                             //   adapter.getList().addAll(adapter.getList());
+                                adapter.notifyDataSetChanged();
+                                //当加载完数据后，再恢复加载脚View的显示状态为：上拉加载更多
+                                adapter.changeMoreStatus(NewsRecycleAdapter.NO_MORE_DATA);
+                            }
+                        },3000);
+                    }
+                }
+            }
+        });
         //对下拉刷新进行监听，
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
