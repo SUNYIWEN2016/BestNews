@@ -18,7 +18,9 @@ public abstract class BaseFragment extends Fragment {
     private LoadingPage loadingPage;
 
     public BaseFragment() {
+
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,16 +54,20 @@ public abstract class BaseFragment extends Fragment {
 
         return rootView;
     }
+
     //初始化界面
     protected abstract void initData();
+
     protected abstract String getRealURL();
+
     protected abstract void parseRealData(String result);
+
     protected abstract int getRealLayout();
 
-    public void showSuccessPage() {
+    public void showSuccessPage(String url) {
+        loadingPage.setUrl(url);
         loadingPage.startNetWork();
     }
-
 
 
     @Override

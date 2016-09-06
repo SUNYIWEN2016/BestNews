@@ -1,6 +1,7 @@
 package com.dyx.bestnews.fragments;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -26,6 +27,8 @@ import butterknife.BindView;
 
 
 public class NewsListFragment extends BaseFragment {
+    @BindView(R.id.swipe)
+    SwipeRefreshLayout swipe;
     private String tid;
     @BindView(R.id.recyclerView1)
     RecyclerView recyclerView1;
@@ -59,7 +62,7 @@ public class NewsListFragment extends BaseFragment {
 
     private void lazyLoad() {
         if (!isPrepared || !isVisible || isCompleted) return;
-        showSuccessPage();
+        showSuccessPage(getRealURL());
 
     }
 
@@ -71,6 +74,18 @@ public class NewsListFragment extends BaseFragment {
         isPrepared = true;
         layoutManager = new LinearLayoutManager(getContext());
         Bundle bundle = getArguments();
+        adapter = new NewsRecycleAdapter(getContext());
+        //                recyclerView1.addItemDecoration(new MyDecoration());
+        recyclerView1.setLayoutManager(layoutManager);
+        recyclerView1.setAdapter(adapter);
+        //对下拉刷新进行监听，
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //新网址
+                showSuccessPage(getRealURL());
+            }
+        });
         if (bundle != null) {
             tid = bundle.getString("tid");
             //组合成url显示
@@ -80,30 +95,33 @@ public class NewsListFragment extends BaseFragment {
 
     @Override
     protected String getRealURL() {
-        String url = "http://c.m.163.com/nc/article/list/" + tid + "/0-20.html";
-        Toast.makeText(NewsListFragment.this.getContext(), "tid:" + tid, Toast.LENGTH_SHORT).show();
-        return url;
+        return "http://c.m.163.com/nc/article/list/" + tid + "/0-20.html";
     }
+
+    NewsEase tempEase;
 
     @Override
     protected void parseRealData(String result) {
-        String tname = getArguments().getString("tname");
         //加载数据完成
         List<NewsEase> newslist = new ArrayList<NewsEase>();
         try {
             JSONArray jsonArray = new JSONObject(result).getJSONArray(tid);
             for (int i = 0; i < jsonArray.length(); i++) {
                 NewsEase newsEase = new Gson().fromJson(jsonArray.getString(i), NewsEase.class);
+                if (i == 0) {
+                    tempEase = newsEase;
+                }
                 newslist.add(newsEase);
             }
 
         } catch (JSONException e) {
-            Toast.makeText(NewsListFragment.this.getContext(), "吐司失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewsListFragment.this.getContext(), result, Toast.LENGTH_SHORT).show();
         }
-        adapter = new NewsRecycleAdapter(newslist, getContext());
-        recyclerView1.setAdapter(adapter);
-//                recyclerView1.addItemDecoration(new MyDecoration());
-        recyclerView1.setLayoutManager(layoutManager);
+//        adapter = new NewsRecycleAdapter(newslist, getContext());
+//        recyclerView1.setAdapter(adapter);
+        adapter.addData(newslist);
+        adapter.notifyDataSetChanged();
+        swipe.setRefreshing(false);
         isCompleted = true;
     }
 

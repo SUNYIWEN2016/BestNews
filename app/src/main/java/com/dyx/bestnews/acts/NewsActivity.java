@@ -57,19 +57,15 @@ public class NewsActivity extends AppCompatActivity implements BaseFragment.OnFr
             case R.id.radioButton1:
 
                 showFragment(nf);
-                //   getSupportFragmentManager().beginTransaction().show(nf).hide(hf).hide(ff).hide(lf).commit();
                 break;
             case R.id.radioButton2:
                 showFragment(hf);
-                //   getSupportFragmentManager().beginTransaction().show(hf).hide(ff).hide(nf).hide(lf).commit();
                 break;
             case R.id.radioButton3:
                 showFragment(ff);
-                //   getSupportFragmentManager().beginTransaction().show(ff).hide(nf).hide(lf).hide(hf).commit();
                 break;
             case R.id.radioButton4:
                 showFragment(lf);
-                //  getSupportFragmentManager().beginTransaction().show(lf).hide(nf).hide(ff).hide(hf).commit();
                 break;
         }
     }
@@ -77,6 +73,9 @@ public class NewsActivity extends AppCompatActivity implements BaseFragment.OnFr
     public void showFragment(Fragment f) {
         Fragment[] fs = {nf, ff, lf, hf};
         FragmentManager fm = getSupportFragmentManager();
+        if (f!=fm.findFragmentByTag(f.getClass().getSimpleName())){
+            addFragment(f);
+        }
         FragmentTransaction tr = fm.beginTransaction();
         for (Fragment tf : fs) {
             tr.hide(tf);

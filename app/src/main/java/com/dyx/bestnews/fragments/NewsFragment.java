@@ -35,7 +35,7 @@ public class NewsFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        showSuccessPage();
+        showSuccessPage(null);
         Bundle bundle = getArguments();
         if (bundle != null) {
             ArrayList<NetEaseType.TList> list = (ArrayList<NetEaseType.TList>) bundle.getSerializable("list");

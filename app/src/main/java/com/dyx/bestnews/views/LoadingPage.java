@@ -34,6 +34,7 @@ public abstract class LoadingPage extends FrameLayout {
     }
 
     private void initViews() {
+        url = getUrl();
         if (loadingView == null) {
             loadingView = View.inflate(getContext(), R.layout.layout_loading, null);
             addView(loadingView);
@@ -51,9 +52,12 @@ public abstract class LoadingPage extends FrameLayout {
         showPage();
 
     }
-
+   private  String url;
+public void setUrl(String url){
+    this.url=url;
+}
     public void startNetWork() {
-        String url = getUrl();
+
         if (url == null) {
             currentState = STAT_SUCESS;
             showPage();

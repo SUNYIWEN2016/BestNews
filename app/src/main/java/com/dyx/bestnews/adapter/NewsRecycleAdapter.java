@@ -25,12 +25,34 @@ import butterknife.ButterKnife;
  */
 public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public void setList(List<NewsEase> list) {
+        this.list = list;
+    }
+
+    public void addData(List<NewsEase> l) {
+        if (l == null) return;
+        if (list == null) {
+            setList(l);
+            return;
+        }
+        list.addAll(l);
+    }
+
+    public List<NewsEase> getList() {
+        return list;
+    }
+
     private List<NewsEase> list;
     private Handler handler;
+
     public NewsRecycleAdapter(List<NewsEase> list, Context context) {
         this.list = list;
         this.context = context;
 
+    }
+
+    public NewsRecycleAdapter(Context context) {
+        this.context = context;
     }
 
     private Context context;
@@ -154,30 +176,23 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         });
         h.vpager.setAdapter(adapter);
         h.vpager.setCurrentItem(Integer.MAX_VALUE / 2 - ((Integer.MAX_VALUE / 2) % list.get(position).ads.size()));
-        handler=new Handler(){
+        handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                if (msg.what==1){
+                if (msg.what == 1) {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            int position=h.vpager.getCurrentItem();
-                            h.vpager.setCurrentItem(position+1);
+                            int position = h.vpager.getCurrentItem();
+                            h.vpager.setCurrentItem(position + 1);
+                            handler.removeMessages(1);
                             handler.sendEmptyMessage(1);
                         }
-                    },2000);
+                    }, 2000);
                 }
             }
         };
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int position=h.vpager.getCurrentItem();
-                h.vpager.setCurrentItem(position+1);
-                handler.sendEmptyMessage(1);
-            }
-        },2000);
-
+        handler.sendEmptyMessage(1);
     }
 
     @Override
