@@ -23,9 +23,8 @@
         </activity>
         <activity
             android:name=".acts.NewsActivity"
-            android:theme="@style/MyIndicatorColor"
-
-            ></activity>
+            android:theme="@style/MyIndicatorColor" />
+        <activity android:name=".acts.BrowserActivity"></activity>
     </application>
 
 </manifest>

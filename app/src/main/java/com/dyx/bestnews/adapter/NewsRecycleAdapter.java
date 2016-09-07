@@ -26,6 +26,9 @@ import butterknife.ButterKnife;
  */
 public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public static final int RECYCLER_ITEM = 0;
+    private OnItemClickListener onItemClickListener;
+
     public void setList(List<NewsEase> list) {
         this.list = list;
     }
@@ -107,8 +110,7 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof OneImageHolder) {
 
             OneImageHolder h = (OneImageHolder) holder;
@@ -153,8 +155,31 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             }
         }
+
+        //长按，点击
+        // 点击事件：网址：
+        //传递给下个activity的webview去显示
+     //   adapter--->Fragment---> Activity跳转传值----下一个activity显示数据
+
+        if (onItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    onItemClickListener.itemClick(RECYCLER_ITEM,position);
+                }
+            });
+        }
+
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void itemClick(int viewId, int position);
+    }
     public void changeMoreStatus(int status) {
         load_more_status = status;
         notifyDataSetChanged();

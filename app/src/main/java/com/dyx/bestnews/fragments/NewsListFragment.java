@@ -11,6 +11,7 @@ import com.dyx.bestnews.R;
 import com.dyx.bestnews.adapter.NewsRecycleAdapter;
 import com.dyx.bestnews.base.BaseFragment;
 import com.dyx.bestnews.entity.NewsEase;
+import com.dyx.bestnews.views.RecycleViewDivider;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -38,6 +39,7 @@ public class NewsListFragment extends BaseFragment {
     private boolean isPrepared;//加载是否准备好
     private boolean isVisible;//是否可见
     private boolean isCompleted;//是否已经加载完成。
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {//frahment从不可见到完全可见的时候，会调用该方法
@@ -69,6 +71,25 @@ public class NewsListFragment extends BaseFragment {
 
     ;//懒加载的方法,在这个方法里面我们为Fragment的各个组件去添加数据
 
+    private NewsRecycleAdapter.OnItemClickListener onItemClickListener=new NewsRecycleAdapter.OnItemClickListener() {
+        @Override
+        public void itemClick(int viewId,int position) {
+         if (viewId==NewsRecycleAdapter.RECYCLER_ITEM)  {
+             String url=adapter.getList().get(position).url;
+             if (url!=null){
+                 //交给activity
+                 //viewid,bundle
+                 Bundle bundle=new Bundle();
+                 bundle.putString("url",url);
+                 mListener.onFragmentInteraction(viewId,bundle);
+             }else{
+                 Toast.makeText(NewsListFragment.this.getContext(), "没有网址", Toast.LENGTH_SHORT).show();
+             }
+         }
+        }
+    };
+
+
 
     @Override
     protected void initData() {
@@ -76,27 +97,28 @@ public class NewsListFragment extends BaseFragment {
         layoutManager = new LinearLayoutManager(getContext());
         Bundle bundle = getArguments();
         adapter = new NewsRecycleAdapter(getContext());
-        //                recyclerView1.addItemDecoration(new MyDecoration());
+        adapter.setOnItemClickListener(onItemClickListener);
         recyclerView1.setLayoutManager(layoutManager);
         recyclerView1.setAdapter(adapter);
+        recyclerView1.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.HORIZONTAL));
         recyclerView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(!swipe.isRefreshing()){
+                if (!swipe.isRefreshing()) {
                     int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-                    if(newState==RecyclerView.SCROLL_STATE_IDLE&&lastVisibleItem+1==adapter.getItemCount()){
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
                         //调用Adapter里的changeMoreStatus方法来改变加载脚View的显示状态为：正在加载...
                         adapter.changeMoreStatus(NewsRecycleAdapter.ISLOADING);
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                             //   adapter.getList().addAll(adapter.getList());
+                                //   adapter.getList().addAll(adapter.getList());
                                 adapter.notifyDataSetChanged();
                                 //当加载完数据后，再恢复加载脚View的显示状态为：上拉加载更多
                                 adapter.changeMoreStatus(NewsRecycleAdapter.NO_MORE_DATA);
                             }
-                        },3000);
+                        }, 3000);
                     }
                 }
             }

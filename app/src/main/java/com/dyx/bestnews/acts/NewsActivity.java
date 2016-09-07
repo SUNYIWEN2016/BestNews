@@ -1,5 +1,6 @@
 package com.dyx.bestnews.acts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
 import com.dyx.bestnews.R;
+import com.dyx.bestnews.adapter.NewsRecycleAdapter;
 import com.dyx.bestnews.base.BaseFragment;
 import com.dyx.bestnews.fragments.FavorFragment;
 import com.dyx.bestnews.fragments.HotFragment;
@@ -73,7 +75,7 @@ public class NewsActivity extends AppCompatActivity implements BaseFragment.OnFr
     public void showFragment(Fragment f) {
         Fragment[] fs = {nf, ff, lf, hf};
         FragmentManager fm = getSupportFragmentManager();
-        if (f!=fm.findFragmentByTag(f.getClass().getSimpleName())){
+        if (f != fm.findFragmentByTag(f.getClass().getSimpleName())) {
             addFragment(f);
         }
         FragmentTransaction tr = fm.beginTransaction();
@@ -86,6 +88,14 @@ public class NewsActivity extends AppCompatActivity implements BaseFragment.OnFr
 
     @Override
     public void onFragmentInteraction(int viewId, Bundle bundle) {
+        switch (viewId) {
+            case NewsRecycleAdapter.RECYCLER_ITEM:
+                //跳转activity，传值过去
+                Intent intent = new Intent(NewsActivity.this, BrowserActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
 
+                break;
+        }
     }
 }

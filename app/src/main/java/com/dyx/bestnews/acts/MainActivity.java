@@ -114,4 +114,6 @@ public class MainActivity extends AppCompatActivity {
         }
         netEaseType.gettList().removeAll(tobeDeleted);
     }
+
+
 }
