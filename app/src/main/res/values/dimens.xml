@@ -5,4 +5,5 @@
     <dimen name="ad_vp_height">200dp</dimen>
     <dimen name="oneImg_height">140dp</dimen>
     <dimen name="threeImg_height">160dp</dimen>
+    <dimen name="item_padding">3dp</dimen>
 </resources>

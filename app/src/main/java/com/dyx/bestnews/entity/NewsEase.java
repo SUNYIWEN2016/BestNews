@@ -8,6 +8,8 @@ import java.util.List;
 public class NewsEase {
     public String title;
     public String source;
+
+
     public String tname;
     public int hasHead;
     public String imgsrc;
@@ -18,8 +20,9 @@ public class NewsEase {
     public String url;
     public List<Image> imgextra;
     public List<AD> ads;
+    public String docid;
 
-    public NewsEase(String title, String source, String tname, int hasHead, String imgsrc, String ptime, String ltitle, String postid, int replyCount, String url, List<Image> imgextra, List<AD> ads) {
+    public NewsEase(String title, String source, String tname, int hasHead, String imgsrc, String ptime, String ltitle, String postid, int replyCount, String url, List<Image> imgextra, List<AD> ads, String docid) {
         this.title = title;
         this.source = source;
         this.tname = tname;
@@ -32,16 +35,19 @@ public class NewsEase {
         this.url = url;
         this.imgextra = imgextra;
         this.ads = ads;
+        this.docid = docid;
     }
 
-    public static class AD{
-        public AD(String title, String tag, String imgsrc, String subtitle) {
+    public static class AD {
+        public AD(String title, String tag, String imgsrc, String subtitle, String docid) {
             this.title = title;
             this.tag = tag;
             this.imgsrc = imgsrc;
             this.subtitle = subtitle;
+            this.docid = docid;
         }
 
+        public String docid;
         public String title;
         public String tag;
         public String imgsrc;

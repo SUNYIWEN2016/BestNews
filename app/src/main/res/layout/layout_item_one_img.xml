@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:padding="@dimen/item_padding"
+    android:background="@drawable/home_entry_item_selector"
     android:layout_height="wrap_content">
 
 
@@ -8,7 +10,7 @@
         android:id="@+id/img_left"
         android:layout_width="@dimen/oneImg_height"
         android:layout_height="@dimen/oneImg_height"
-        android:src="@mipmap/loading" />
+        android:src="@drawable/loading" />
 
     <TextView
         android:id="@+id/tv_title"
@@ -17,7 +19,7 @@
         android:layout_marginTop="2dp"
         android:layout_toRightOf="@+id/img_left"
         android:textSize="25sp"
-        android:textColor="#8f00"
+        android:textColor="@color/black"
         android:text="大字标题" />
 
     <TextView

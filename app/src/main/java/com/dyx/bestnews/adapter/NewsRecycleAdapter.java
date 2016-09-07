@@ -114,7 +114,7 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (holder instanceof OneImageHolder) {
 
             OneImageHolder h = (OneImageHolder) holder;
-            XImageUtil.display(h.imgLeft, list.get(position).imgsrc);
+            XImageUtil.display(h.imgLeft, list.get(position).imgsrc,5);
             h.tvTitle.setText(list.get(position).title);
             h.tvFollow.setText(list.get(position).replyCount + "跟帖");
 
@@ -127,9 +127,9 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         } else if (holder instanceof ThreeImageHolder) {
             ThreeImageHolder h = (ThreeImageHolder) holder;
-            XImageUtil.display(h.img1, list.get(position).imgsrc);
-            XImageUtil.display(h.img2, list.get(position).imgextra.get(0).imgsrc);
-            XImageUtil.display(h.img3, list.get(position).imgextra.get(1).imgsrc);
+            XImageUtil.display(h.img1, list.get(position).imgsrc,5);
+            XImageUtil.display(h.img2, list.get(position).imgextra.get(0).imgsrc,5);
+            XImageUtil.display(h.img3, list.get(position).imgextra.get(1).imgsrc,5);
             h.tvTitle.setText(list.get(position).title);
             h.tvFollow.setText(list.get(position).replyCount + "跟帖");
 
@@ -159,18 +159,19 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         //长按，点击
         // 点击事件：网址：
         //传递给下个activity的webview去显示
-     //   adapter--->Fragment---> Activity跳转传值----下一个activity显示数据
+        //   adapter--->Fragment---> Activity跳转传值----下一个activity显示数据
 
         if (onItemClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            if (!(holder instanceof ViewPagerHolder)) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onItemClickListener.itemClick(RECYCLER_ITEM, position);
+                    }
+                });
+            }
 
-                    onItemClickListener.itemClick(RECYCLER_ITEM,position);
-                }
-            });
         }
-
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -180,6 +181,7 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public interface OnItemClickListener {
         void itemClick(int viewId, int position);
     }
+
     public void changeMoreStatus(int status) {
         load_more_status = status;
         notifyDataSetChanged();
@@ -317,7 +319,7 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-  class FootHolder extends RecyclerView.ViewHolder {
+    class FootHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.progressBar1)
         ProgressBar progressBar1;

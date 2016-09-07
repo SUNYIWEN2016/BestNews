@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:src="@mipmap/loading" />
+            android:src="@drawable/loading" />
 
         <ImageView
             android:id="@+id/img2"
@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:src="@mipmap/loading" />
+            android:src="@drawable/loading" />
 
         <ImageView
             android:id="@+id/img3"
@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:src="@mipmap/loading" />
+            android:src="@drawable/loading" />
     </LinearLayout>
 
     <TextView

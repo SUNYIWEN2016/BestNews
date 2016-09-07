@@ -71,24 +71,31 @@ public class NewsListFragment extends BaseFragment {
 
     ;//懒加载的方法,在这个方法里面我们为Fragment的各个组件去添加数据
 
-    private NewsRecycleAdapter.OnItemClickListener onItemClickListener=new NewsRecycleAdapter.OnItemClickListener() {
+    private NewsRecycleAdapter.OnItemClickListener onItemClickListener = new NewsRecycleAdapter.OnItemClickListener() {
         @Override
-        public void itemClick(int viewId,int position) {
-         if (viewId==NewsRecycleAdapter.RECYCLER_ITEM)  {
-             String url=adapter.getList().get(position).url;
-             if (url!=null){
-                 //交给activity
-                 //viewid,bundle
-                 Bundle bundle=new Bundle();
-                 bundle.putString("url",url);
-                 mListener.onFragmentInteraction(viewId,bundle);
-             }else{
-                 Toast.makeText(NewsListFragment.this.getContext(), "没有网址", Toast.LENGTH_SHORT).show();
-             }
-         }
+        public void itemClick(int viewId, int position) {
+            if (viewId == NewsRecycleAdapter.RECYCLER_ITEM) {
+                String url = adapter.getList().get(position).url;
+                Bundle bundle = new Bundle();
+                if (url != null) {
+                    if (url.equals("null")) {
+                        String docid = adapter.getList().get(position).postid;
+                        url = "http://c.m.163.com/nc/article/" + docid + "/full.html";
+                        bundle.putString("docid",adapter.getList().get(position).postid);
+                        //不能直接交给webview解析，需要自己解析成动态网页。
+                        bundle.putBoolean("user", false);
+                    }
+                    //交给activity
+                    //viewid,bundle
+
+                    bundle.putString("url", url);
+                    mListener.onFragmentInteraction(viewId, bundle);
+                } else {
+                    Toast.makeText(NewsListFragment.this.getContext(), "没有网址", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     };
-
 
 
     @Override
@@ -156,6 +163,7 @@ public class NewsListFragment extends BaseFragment {
                 if (i == 0) {
                     tempEase = newsEase;
                 }
+                //   if (newsEase.url==null||newsEase.url.equals("null")) continue;
                 newslist.add(newsEase);
             }
 

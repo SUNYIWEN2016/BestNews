@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/ad_vp_height"
         android:scaleType="centerInside"
-        android:src="@mipmap/loading" />
+        android:src="@drawable/loading" />
 
     <TextView
         android:id="@+id/tv_title"
