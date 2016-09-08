@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_toRightOf="@+id/img_left"
-        android:textSize="25sp"
+        android:textSize="@dimen/one_img_text_size"
         android:textColor="@color/black"
         android:text="大字标题" />
 

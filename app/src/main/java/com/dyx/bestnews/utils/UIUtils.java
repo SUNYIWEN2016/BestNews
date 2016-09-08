@@ -2,6 +2,7 @@ package com.dyx.bestnews.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
 
@@ -24,6 +25,15 @@ public class UIUtils {
             return getResource().getColor(colorId, null);
         } else {
             return getResource().getColor(colorId);
+        }
+    }
+
+    public static Drawable getDrawable(int drawableId) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return getResource().getDrawable(drawableId, null);
+        } else {
+            return getResource().getDrawable(drawableId);
+
         }
     }
 

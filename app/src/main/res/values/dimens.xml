@@ -6,4 +6,5 @@
     <dimen name="oneImg_height">140dp</dimen>
     <dimen name="threeImg_height">160dp</dimen>
     <dimen name="item_padding">3dp</dimen>
+    <dimen name="one_img_text_size">22sp</dimen>
 </resources>

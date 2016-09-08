@@ -36,6 +36,7 @@ public class NewsFragment extends BaseFragment {
     @Override
     protected void initData() {
         showSuccessPage(null);
+        tvTitle.setText("网易新闻");
         Bundle bundle = getArguments();
         if (bundle != null) {
             ArrayList<NetEaseType.TList> list = (ArrayList<NetEaseType.TList>) bundle.getSerializable("list");

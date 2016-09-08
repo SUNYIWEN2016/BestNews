@@ -8,7 +8,7 @@
     <application
         android:name=".app.MyApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/defaultpic"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -24,7 +24,9 @@
         <activity
             android:name=".acts.NewsActivity"
             android:theme="@style/MyIndicatorColor" />
-        <activity android:name=".acts.BrowserActivity"></activity>
+        <activity
+            android:name=".acts.BrowserActivity"
+            android:theme="@style/AppThemeNoActionbar"></activity>
     </application>
 
 </manifest>

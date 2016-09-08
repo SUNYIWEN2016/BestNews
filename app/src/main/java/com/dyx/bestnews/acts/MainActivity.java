@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.dyx.bestnews.R;
 import com.dyx.bestnews.entity.NetEaseType;
+import com.dyx.bestnews.utils.CommonUrls;
 import com.dyx.bestnews.utils.IgnoreTypes;
 import com.google.gson.Gson;
 
@@ -58,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getList() {
         final long time = System.currentTimeMillis();
-        String url = "http://c.m.163.com/nc/topicset/android/subscribe/manage/listspecial.html";
-        RequestParams entity = new RequestParams(url);
+        RequestParams entity = new RequestParams(CommonUrls.getCommonUrls().getNewsType());
         x.http().get(entity, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

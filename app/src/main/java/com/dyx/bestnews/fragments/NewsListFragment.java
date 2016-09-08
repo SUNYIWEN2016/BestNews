@@ -11,6 +11,7 @@ import com.dyx.bestnews.R;
 import com.dyx.bestnews.adapter.NewsRecycleAdapter;
 import com.dyx.bestnews.base.BaseFragment;
 import com.dyx.bestnews.entity.NewsEase;
+import com.dyx.bestnews.utils.CommonUrls;
 import com.dyx.bestnews.views.RecycleViewDivider;
 import com.google.gson.Gson;
 
@@ -75,24 +76,10 @@ public class NewsListFragment extends BaseFragment {
         @Override
         public void itemClick(int viewId, int position) {
             if (viewId == NewsRecycleAdapter.RECYCLER_ITEM) {
-                String url = adapter.getList().get(position).url;
                 Bundle bundle = new Bundle();
-                if (url != null) {
-                    if (url.equals("null")) {
-                        String docid = adapter.getList().get(position).postid;
-                        url = "http://c.m.163.com/nc/article/" + docid + "/full.html";
-                        bundle.putString("docid",adapter.getList().get(position).postid);
-                        //不能直接交给webview解析，需要自己解析成动态网页。
-                        bundle.putBoolean("user", false);
-                    }
-                    //交给activity
-                    //viewid,bundle
-
-                    bundle.putString("url", url);
-                    mListener.onFragmentInteraction(viewId, bundle);
-                } else {
-                    Toast.makeText(NewsListFragment.this.getContext(), "没有网址", Toast.LENGTH_SHORT).show();
-                }
+                bundle.putString("docid", adapter.getList().get(position).docid);
+                bundle.putString("title",adapter.getList().get(position).title);
+                mListener.onFragmentInteraction(viewId, bundle);
             }
         }
     };
@@ -147,7 +134,7 @@ public class NewsListFragment extends BaseFragment {
 
     @Override
     protected String getRealURL() {
-        return "http://c.m.163.com/nc/article/list/" + tid + "/0-20.html";
+        return CommonUrls.getCommonUrls().getListUrl(tid);
     }
 
     NewsEase tempEase;
